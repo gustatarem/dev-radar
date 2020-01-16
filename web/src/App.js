@@ -3,9 +3,11 @@ import './global.css'
 import './App.css'
 import './Sidebar.css'
 import './Main.css'
+import api from './services/api';
 
 function App() {
 
+  const [devs, setDevs] = useState([]);
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
   const [github_username, setGithubUsername] = useState('');
@@ -28,15 +30,32 @@ function App() {
     );
   }, []);
 
+  useEffect(() => {
+    async function loadUsers() {
+      const response = await api.get('/devs');
+
+      setDevs(response.data);
+    }
+
+    loadUsers();
+  }, []);
+
   async function onSubmitPressed(e) {
     e.preventDefault();
+
+    const response = await api.post('/devs', { github_username, techs, latitude, longitude });
+
+    console.log(response.data);
+
+    setGithubUsername('');
+    setTechs('');
   }
 
   return (
     <div id="app">
       <aside>
         <strong>Cadastro</strong>
-        <form>
+        <form onSubmit={onSubmitPressed}>
           <div className="input-block">
             <label htmlFor="github_username">Usuário do GitHub</label>
             <input
@@ -90,50 +109,17 @@ function App() {
 
       <main>
         <ul>
-          <li className="dev-item">
+          {devs.map(dev => (<li className="dev-item">
             <header>
-              <img src="https://avatars3.githubusercontent.com/u/31068254?s=460&v=4" alt="Gustavo Tatarem" />
+              <img src={dev.avatar_url} alt={dev.name} />
               <div className="user-info">
-                <strong>Gustavo Tatarem</strong>
-                <span>React, React Native, NodeJS</span>
+                <strong>{dev.name}</strong>
+                <span>{dev.techs.join(', ')}</span>
               </div>
             </header>
-            <p>Full-stack developer.</p>
-            <a href="https://github.com/gustatarem">Acessar perfil no GitHub</a>
-          </li>
-          <li className="dev-item">
-            <header>
-              <img src="https://avatars3.githubusercontent.com/u/31068254?s=460&v=4" alt="Gustavo Tatarem" />
-              <div className="user-info">
-                <strong>Gustavo Tatarem</strong>
-                <span>React, React Native, NodeJS</span>
-              </div>
-            </header>
-            <p>Full-stack developer.</p>
-            <a href="https://github.com/gustatarem">Acessar perfil no GitHub</a>
-          </li>
-          <li className="dev-item">
-            <header>
-              <img src="https://avatars3.githubusercontent.com/u/31068254?s=460&v=4" alt="Gustavo Tatarem" />
-              <div className="user-info">
-                <strong>Gustavo Tatarem</strong>
-                <span>React, React Native, NodeJS</span>
-              </div>
-            </header>
-            <p>Full-stack developer.</p>
-            <a href="https://github.com/gustatarem">Acessar perfil no GitHub</a>
-          </li>
-          <li className="dev-item">
-            <header>
-              <img src="https://avatars3.githubusercontent.com/u/31068254?s=460&v=4" alt="Gustavo Tatarem" />
-              <div className="user-info">
-                <strong>Gustavo Tatarem</strong>
-                <span>React, React Native, NodeJS</span>
-              </div>
-            </header>
-            <p>Full-stack developer.</p>
-            <a href="https://github.com/gustatarem">Acessar perfil no GitHub</a>
-          </li>
+            <p>{dev.bio}</p>
+            <a href={`https://github.com/${dev.github_username}`}>Acessar perfil no GitHub</a>
+          </li>))}
         </ul>
       </main>
     </div>
