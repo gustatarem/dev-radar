@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './global.css'
 import './App.css'
 import './Sidebar.css'
+import './Main.css'
 
 function App() {
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log(position);
+      },
+      (err) => {
+        console.log(err);
+      },
+      {
+       timeout: 30000, 
+      }
+    );
+  }, []);
 
   return (
     <div id="app">
@@ -38,7 +52,48 @@ function App() {
       <main>
         <ul>
           <li className="dev-item">
-
+            <header>
+              <img src="https://avatars3.githubusercontent.com/u/31068254?s=460&v=4" alt="Gustavo Tatarem" />
+              <div className="user-info">
+                <strong>Gustavo Tatarem</strong>
+                <span>React, React Native, NodeJS</span>
+              </div>
+            </header>
+            <p>Full-stack developer.</p>
+            <a href="https://github.com/gustatarem">Acessar perfil no GitHub</a>
+          </li>
+          <li className="dev-item">
+            <header>
+              <img src="https://avatars3.githubusercontent.com/u/31068254?s=460&v=4" alt="Gustavo Tatarem" />
+              <div className="user-info">
+                <strong>Gustavo Tatarem</strong>
+                <span>React, React Native, NodeJS</span>
+              </div>
+            </header>
+            <p>Full-stack developer.</p>
+            <a href="https://github.com/gustatarem">Acessar perfil no GitHub</a>
+          </li>
+          <li className="dev-item">
+            <header>
+              <img src="https://avatars3.githubusercontent.com/u/31068254?s=460&v=4" alt="Gustavo Tatarem" />
+              <div className="user-info">
+                <strong>Gustavo Tatarem</strong>
+                <span>React, React Native, NodeJS</span>
+              </div>
+            </header>
+            <p>Full-stack developer.</p>
+            <a href="https://github.com/gustatarem">Acessar perfil no GitHub</a>
+          </li>
+          <li className="dev-item">
+            <header>
+              <img src="https://avatars3.githubusercontent.com/u/31068254?s=460&v=4" alt="Gustavo Tatarem" />
+              <div className="user-info">
+                <strong>Gustavo Tatarem</strong>
+                <span>React, React Native, NodeJS</span>
+              </div>
+            </header>
+            <p>Full-stack developer.</p>
+            <a href="https://github.com/gustatarem">Acessar perfil no GitHub</a>
           </li>
         </ul>
       </main>
